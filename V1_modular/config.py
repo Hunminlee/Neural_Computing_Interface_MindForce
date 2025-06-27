@@ -8,7 +8,7 @@ Info = ['Stand (5/27)', 'Stand (6/18)', 'Stand (6/20)', 'Sit_chair (6/20)', 'Sit
         'Stand (6/20-v2)', 'Sit_chair (6/20-v2)', 'Sit_chair_leg_crossed (6/20-v2)', 'Sit_floor (6/20-v2)',
         'Stand (6/23)', 'Sit_chair (6/23)', 'Sit_chair_leg_crossed (6/23)', 'Sit_floor (6/23)',
         'Stand (6/24)', 'Sit_chair (6/24)', 'Sit_chair_leg_crossed (6/24)', 'Sit_floor (6/24)',
-        'Stand (6/26)', 'Sit_chair (6/26)', 'Sit_chair_leg_crossed (6/26)', 'Sit_floor (6/26)']
+        'Stand (6/26)', 'Sit_chair (6/26)', 'Sit_chair_leg_crossed (6/26)', 'Sit_floor (6/26)', ]
 
 #Date / Bluetooth address
 dataset = ["Exp_2025-05-27/E8331D05289A/", "Exp_2025-06-18/E9AD0E7DCC2B/",

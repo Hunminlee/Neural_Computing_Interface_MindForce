@@ -17,12 +17,12 @@ The overall pipeline consists of the following stages:
 
 2. **Windowing**
 
-   * Continuous signals are segmented into overlapping windows (e.g., 250–500 ms) with a fixed stride.
+   * Continuous signals are segmented into overlapping windows (e.g., 250–500 ms) with a fixed, overlapped stride.
    * Windowing improves temporal resolution and enables frame-based classification.
 
 3. **Feature Extraction**
 
-   * Multiple features are extracted per window to capture discriminative signal characteristics. Common features include:
+   * Multiple features are extracted per window to capture discriminative signal characteristics. Current features include:
 
      * Time-domain: RMS, MAV, ZC, WL
      * Frequency-domain: MNF, MDF, Spectral Entropy

@@ -149,7 +149,7 @@ class MAMLProgressiveTrainer:
                 self.X_test_prev_all = X_combined
                 self.y_test_prev_all = y_combined
 
-        return self.init_acc_all, self.trained_acc_all, self.prev_acc_all
+        return self.init_acc_all, self.prev_acc_all, self.trained_acc_all
 
     def plot_results(self, baselines, baseline_K):
 

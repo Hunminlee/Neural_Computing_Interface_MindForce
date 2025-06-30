@@ -107,7 +107,7 @@ class TransferLearningTrainer:
             else:
                 self.adapt_model(path, plot_learning_curve)
 
-        return self.init_acc_all, self.trained_acc_all, self.prev_acc_all
+        return self.init_acc_all, self.prev_acc_all, self.trained_acc_all,
 
     def plot_results(self, baselines, baseline_K):
 

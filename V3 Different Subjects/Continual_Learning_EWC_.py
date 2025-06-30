@@ -38,7 +38,7 @@ class ContinualLearningTrainer:
         self.classes = config.classes_5
 
         self.batch_size = config.batch_size
-        self.epochs = config.epochs
+        self.epochs = config.epochs_CL
         self.train_ratio = 0.5
         self.model_name = "Cont_L_Model"
 
@@ -122,7 +122,7 @@ class ContinualLearningTrainer:
                 self.y_test_prev_all = np.concatenate((self.y_test_prev_all, y_test), axis=0)
                 del model
 
-        return self.init_acc_all, self.trained_acc_all, self.prev_acc_all
+        return self.init_acc_all, self.prev_acc_all, self.trained_acc_all
 
     def plot_results(self, baselines, baseline_K):
 

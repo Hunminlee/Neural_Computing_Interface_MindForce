@@ -2,7 +2,7 @@
 
 classes_5 = ['1/','2/','3/','4/','5/']
 classes_7 = ['1/','2/','3/','4/','5/','6/','7/']
-epochs = 50
+epochs, epochs_CL = 50, 20
 batch_size = 256
 
 default_path_sub_H = "C:/Users/hml76/OneDrive/문서/MATLAB/Data_Hunmin/"

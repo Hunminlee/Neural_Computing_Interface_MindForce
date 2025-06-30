@@ -71,6 +71,16 @@ Later phases of the project will extend to **inter-subject generalization**, tar
 └── README.md            # Project description
 ```
 
+## Gesture Class
+1. Index finger flexion
+2. Index finger pinch
+3. Ring finger pinch
+4. Wrist roll (Inward)
+5. Six
+6. Fist grasp
+7. Stretch palm
+
+
 ## Acknowledgements
 
 This project is developed in the Neural Interfaces Lab. MindForce hardware was custom-designed for this study.

@@ -73,7 +73,9 @@ class ContinualLearningTrainer:
 
     def run(self):
         for idx, session in enumerate(self.dataset):
-            print(f"{'='*43}\nDataset {idx+1}/{len(self.dataset)} - Session {session}\n{'='*43}")
+            #print(f"{'='*43}\nDataset {idx+1}/{len(self.dataset)} - Session {session}\n{'='*43}")
+            
+            print(f"Dataset {idx + 1}/{len(self.dataset)} - Session {session}\n{'=' * 43}")
             path = os.path.join(self.default_path, session, 'raw/')
 
             feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)

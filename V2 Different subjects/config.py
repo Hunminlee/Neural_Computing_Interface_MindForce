@@ -2,7 +2,8 @@
 
 classes_5 = ['1/','2/','3/','4/','5/']
 classes_7 = ['1/','2/','3/','4/','5/','6/','7/']
-
+epochs = 50
+batch_size = 256
 
 default_path_sub_H = "C:/Users/hml76/OneDrive/문서/MATLAB/Data_Hunmin/"
 default_path_sub_X = "C:/Users/hml76/OneDrive/문서/MATLAB/Data_Xianyu/"
@@ -18,9 +19,8 @@ Info_sub_H = ['Stand (5/27)', 'Stand (6/18)', 'Stand (6/20)', 'Sit_chair (6/20)'
         'Stand (6/30)', 'Sit_chair (6/30)', 'Sit_chair_leg_crossed (6/30)', 'Sit_floor (6/30)']
 
 Info_sub_X = ['Stand (6/24)', 'Sit_chair (6/24)', 'Stand (6/26)', 'Sit_chair (6/26)', 'Stand (6/27)', 'Sit_chair (6/27)']
-
 Info_sub_B = ['Stand (6/27)', 'Sit_chair (6/27)']
-
+Info_sub_C = ['Stand (6/30)', 'Sit_chair (6/30)']
 
 #Date / Bluetooth address
 dataset_sub_H = ["Exp_2025-05-27/E8331D05289A/", "Exp_2025-06-18/E9AD0E7DCC2B/",
@@ -36,4 +36,4 @@ dataset_sub_X = ["Exp_2025-06-24-v1/E9AD0E7DCC2B/", "Exp_2025-06-24-v2/E9AD0E7DC
                 "Exp_2025-06-27-v1/E9AD0E7DCC2B/", "Exp_2025-06-27-v2/E9AD0E7DCC2B/"]
 
 dataset_sub_B = ["Exp_2025-06-27-v1/E9AD0E7DCC2B/", "Exp_2025-06-27-v2/E9AD0E7DCC2B/"]
-
+dataset_sub_C = ["Exp_2025-06-30-v1/E9AD0E7DCC2B/", "Exp_2025-06-30-v2/E9AD0E7DCC2B/"]

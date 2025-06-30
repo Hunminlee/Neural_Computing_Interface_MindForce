@@ -112,7 +112,7 @@ class TransferLearningTrainer:
     def plot_results(self, baselines, baseline_K):
 
         plt.figure(figsize=(15, 8))
-        plt.title('Training from scratch every time', fontsize=15)
+        plt.title('Transfer Learning', fontsize=15)
         plt.plot(self.info_labels, self.init_acc_all, marker='o', label='Untrained model on current data', linestyle='--')
         plt.plot(self.info_labels, self.prev_acc_all, marker='o', label='Model trained + tested on accumulated data')
         plt.plot(self.info_labels, self.trained_acc_all, marker='o', label='Model trained + tested on current split')

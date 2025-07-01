@@ -99,7 +99,8 @@ class ProgressiveTrainer:
 
         plt.figure(figsize=(15, 8))
         plt.title('Training from scratch every time', fontsize=15)
-        plt.plot(self.info_labels, self.init_acc_all, marker='o', label='Untrained model on current data', linestyle='--')
+        #plt.plot(self.info_labels, self.init_acc_all, marker='o', label='Untrained model on current data', linestyle='--')
+        plt.plot(self.info_labels, [1/6 for i in range(len(self.info_labels))], marker='o', label='Untrained model on current data', linestyle='--')
         plt.plot(self.info_labels, self.prev_acc_all, marker='o', label='Model trained + tested on accumulated data')
         plt.plot(self.info_labels, self.trained_acc_all, marker='o', label='Model trained + tested on current split')
 
@@ -110,7 +111,7 @@ class ProgressiveTrainer:
         plt.ylim([0, 1])
         plt.xlabel('Date (Sessions)')
         plt.ylabel('Test Accuracy')
-        plt.xticks(rotation=45)
+        plt.xticks(rotation=60)
         plt.legend()
         plt.grid(True)
         plt.tight_layout()

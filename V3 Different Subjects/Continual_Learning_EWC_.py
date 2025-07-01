@@ -139,7 +139,7 @@ class ContinualLearningTrainer:
         plt.ylim([0, 1])
         plt.xlabel('Date (Sessions)')
         plt.ylabel('Test Accuracy')
-        plt.xticks(rotation=45)
+        plt.xticks(rotation=60)
         plt.legend()
         plt.grid(True)
         plt.tight_layout()

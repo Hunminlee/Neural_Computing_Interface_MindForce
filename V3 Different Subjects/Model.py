@@ -8,6 +8,7 @@ import warnings
 warnings.filterwarnings('ignore')
 
 
+
 def Original_model_V1(input_size):
 
     filter_size = (3, 3)  # or your desired kernel size
@@ -54,6 +55,7 @@ def Original_model_V1(input_size):
     )
 
     return model
+
 
 def Train_model(model, X_train, y_train, X_test, y_test, set_epoch, set_batch_size, Model_name, set_verbose, save_model_set):
     # Learning rate scheduler

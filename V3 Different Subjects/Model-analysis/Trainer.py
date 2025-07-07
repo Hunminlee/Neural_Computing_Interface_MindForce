@@ -47,39 +47,8 @@ class TremorModelTrainer:
         self.epochs = config.epochs
 
 
-    def Model_1D_CNN(self, input_shape):
-
-        from tensorflow.keras import layers, models
-
-        input_shape = (4, 1)  # (timesteps, features)
-
-        model = models.Sequential([
-            layers.Input(shape=input_shape),
-
-            layers.Conv1D(8, kernel_size=3, padding='same'),
-            layers.BatchNormalization(),
-            layers.ReLU(),
-            layers.MaxPooling1D(pool_size=2, padding='same'),
-
-            layers.Conv1D(16, kernel_size=3, padding='same'),
-            layers.BatchNormalization(),
-            layers.ReLU(),
-            layers.MaxPooling1D(pool_size=2, padding='same'),
-
-            layers.Flatten(),
-            layers.Dense(64, activation='relu'),
-            layers.Dropout(0.5),
-            layers.Dense(6, activation='softmax'),
-        ])
-
-        model.compile(optimizer='adam', loss='sparse_categorical_crossentropy', metrics=['accuracy'])
-
-        return model
-
-
-
-    def train_multiple_dataset_2D(self, X_train, y_train, X_test, y_test):
-        self.model = Model.Original_model_V1(X_train.shape[1:])
+    def train_multiple_dataset(self, X_train, y_train, X_test, y_test, Model_type):
+        self.model = Model_type(X_train.shape[1:])
 
         history, self.model = Model.Train_model(
             self.model, X_train, y_train, X_test, y_test,
@@ -92,18 +61,6 @@ class TremorModelTrainer:
         return float(np.max(history.history['val_accuracy']) * 100), self.model
 
 
-    def train_multiple_dataset(self, X_train, y_train, X_test, y_test):
-        self.model = self.Model_1D_CNN(X_train.shape[1:])
-
-        history, self.model = Model.Train_model(
-            self.model, X_train, y_train, X_test, y_test,
-            set_epoch=self.epochs, set_batch_size=self.batch_size, Model_name='V0',
-            set_verbose=False, save_model_set=True
-        )
-
-        acc = self.model.evaluate(X_test, y_test, verbose=0)[1]
-        print(f"Accuracy of test dataset using model V0: {acc * 100:.4f}%")
-        return float(np.max(history.history['val_accuracy']) * 100), self.model
 
     def save_results(self, filepath):
         df = pd.DataFrame({

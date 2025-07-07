@@ -8,6 +8,8 @@ from tensorflow.keras.models import load_model
 import warnings
 warnings.filterwarnings('ignore')
 
+import sys
+sys.path.append('../')
 import Model
 import utils
 import config
@@ -132,12 +134,13 @@ class TremorModelTrainer:
         return df
 
 
-    def return_K_data(self, K):
+    def return_K_data(self, K, verbose=False):
         X_train_all, y_train_all = [], []
         X_test_all, y_test_all = [], []
 
         for idx, session_info in enumerate(self.dataset_info):
-            print(f"Dataset {idx + 1}/{len(self.dataset_info)} - Session {session_info}\n{'='*40}")
+            if verbose:
+                print(f"Dataset {idx + 1}/{len(self.dataset_info)} - Session {session_info}\n{'='*40}")
             path = os.path.join(self.default_path, f'{session_info}/raw/')
 
             if idx < K:

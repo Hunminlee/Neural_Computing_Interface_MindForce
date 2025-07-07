@@ -11,7 +11,7 @@ def get_dataset(path, classes, show_labels):
         if len(raw_data) == 1:
             mat = scipy.io.loadmat(path+c+raw_data[0])
         else:
-            print("There is more than one dataset - check")
+            print(f"There is more than one dataset - check - {path} - {classes}")
 
         if c_idx == 0:
             #print(f"Import matlab raw dataset - Matlab file Keys: {mat.keys()}")

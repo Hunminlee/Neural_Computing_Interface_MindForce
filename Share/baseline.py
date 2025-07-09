@@ -108,7 +108,7 @@ class TremorModelTrainer:
                 X_test_stacked = np.concatenate(X_test_all, axis=0)
                 y_test_stacked = np.concatenate(y_test_all, axis=0)
                 acc = 0
-                print(X_train_stacked.shape, y_train_stacked.shape), X_test_stacked.shape, y_test_stacked.shape
+                print(X_train_stacked.shape, y_train_stacked.shape, X_test_stacked.shape, y_test_stacked.shape)
 
             elif idx == K:
                 acc, _ = self.train_multiple_dataset(X_train_stacked, y_train_stacked, X_test_stacked, y_test_stacked)

@@ -4,6 +4,10 @@ import pandas as pd
 import scipy
 import numpy as np
 import matplotlib.pyplot as plt
+import pywt
+from scipy.fftpack import dct
+from scipy.signal import hilbert
+
 
 import sys
 sys.path.append("../Share")
@@ -11,7 +15,6 @@ import config, utils, baseline
 
 
 from scipy.signal import lfilter, medfilt
-from scipy.signal import hilbert
 from sklearn.decomposition import PCA
 
 class EMGFeatureExtractor:
@@ -24,18 +27,42 @@ class EMGFeatureExtractor:
         self.normalization = Norm_bool
 
 
-    def extract_features(self, win_size=600, win_step=120, feat_exclude=60):
+    def extract_features(self, num_feature_set, win_size=600, win_step=120, feat_exclude=60):
         buf = lfilter(self.filter_b, self.filter_a, self.buffer, axis=1)
         nch, len_x = buf.shape
         n_steps = (len_x - win_size) // win_step + 1
 
-        features = np.zeros((nch, 14, n_steps))
+        features = np.zeros((nch, num_feature_set, n_steps))
+
         for i in range(n_steps):
             x = buf[:, i*win_step:i*win_step+win_size]
-            features[:, :, i] = self.extract_feature_win(x)
+            if num_feature_set==23:
+                features[:, :, i] = self.extract_feature_win_23_feats(x)
+            elif num_feature_set==14:
+                features[:, :, i] = self.extract_feature_win(x)
+            else:
+                print("num_feature_set should be either 23 or 14")
+                break
 
         if self.normalization:
-            features = (features - self.feat_mean[:, :, np.newaxis]) / self.feat_std[:, :, np.newaxis]
+            if num_feature_set == 14:
+                features = (features - self.feat_mean[:, :, np.newaxis]) / self.feat_std[:, :, np.newaxis]
+
+            elif num_feature_set == 23:
+                # features shape: (n_channels, 23, n_windows)
+
+                # 1️⃣ 기존 14개 feature normalization
+                features[:, :14, :] = (features[:, :14, :] - self.feat_mean[:, :, np.newaxis]) / self.feat_std[:, :,
+                                                                                                 np.newaxis]
+
+                # 2️⃣ 새로 추가된 9개 feature는 각 채널별로 time-mean/std 계산
+                new_feats = features[:, 14:, :]  # shape: (n_channels, 9, n_windows)
+
+                new_mean = np.mean(new_feats, axis=2, keepdims=True)  # shape: (n_channels, 9, 1)
+                new_std = np.std(new_feats, axis=2, keepdims=True) + 1e-6
+
+                features[:, 14:, :] = (new_feats - new_mean) / new_std
+
 
         if features.shape[2] > feat_exclude:
             features = features[:, :, feat_exclude-1:]  # <-- FIXED HERE
@@ -108,6 +135,88 @@ class EMGFeatureExtractor:
         wmab = np.mean(weight * np.abs(x), axis=1)
 
         return np.stack([zc, ssc, wl, wamp, mab, msq, rms, v3, lgdec, dabs, mfl, mpr, mavs, wmab], axis=1)
+
+    def extract_feature_win_23_feats(self, x):
+        len_x = x.shape[1]
+        sum_x = np.sum(x, axis=1)
+        mean_x = sum_x / len_x
+        ssq_x = np.sum(x ** 2, axis=1)
+        std_x = np.sqrt((ssq_x - 2 * sum_x * mean_x + len_x * mean_x ** 2) / (len_x - 1))
+        diff_x = np.diff(x, axis=1)
+
+        # Time domain features
+        zc = np.mean(np.sign(x[:, 1:]) != np.sign(x[:, :-1]), axis=1)
+        ssc = np.mean(np.sign(diff_x[:, 1:]) != np.sign(diff_x[:, :-1]), axis=1)
+        wl = np.mean(np.abs(diff_x), axis=1)
+        wamp = np.mean(np.abs(np.diff(x, axis=1)) > std_x[:, np.newaxis], axis=1)
+        mab = np.mean(np.abs(x), axis=1)
+        msq = ssq_x / len_x
+        rms = np.sqrt(msq)
+        v3 = np.cbrt(np.mean(x ** 3, axis=1))
+        lgdec = np.exp(np.mean(np.log(np.abs(x) + 1), axis=1))
+        dabs = np.sqrt(np.mean(diff_x ** 2, axis=1))
+        mfl = np.log(dabs + 1)
+        mpr = np.mean(x > std_x[:, np.newaxis], axis=1)
+        mid = x.shape[1] // 2
+        mavs = np.mean(np.abs(x[:, mid:]), axis=1) - np.mean(np.abs(x[:, :mid]), axis=1)
+
+        weight = np.ones_like(x)
+        weight[:, :int(0.25 * len_x)] = 0.5
+        weight[:, int(0.75 * len_x):] = 0.5
+        wmab = np.mean(weight * np.abs(x), axis=1)
+
+        # Cepstrum features (using DCT of log magnitude spectrum)
+        def compute_cepstrum(row):
+            spectrum = np.abs(np.fft.fft(row))
+            log_spectrum = np.log(spectrum + 1e-8)
+            cepstrum = dct(log_spectrum, norm='ortho')
+            return cepstrum[:3], np.mean(cepstrum)
+
+        cc1, cc2, cc3, cca = [], [], [], []
+        for row in x:
+            cc, mean_cc = compute_cepstrum(row)
+            cc1.append(cc[0])
+            cc2.append(cc[1])
+            cc3.append(cc[2])
+            cca.append(mean_cc)
+        cc1 = np.array(cc1)
+        cc2 = np.array(cc2)
+        cc3 = np.array(cc3)
+        cca = np.array(cca)
+
+        # DWT features (Haar)
+        dwtc1, dwtc2 = [], []
+        dwtpc1, dwtpc2, dwtpc3 = [], [], []
+
+        for row in x:
+            cA, cD = pywt.dwt(row, 'db4')  # level 1
+            dwtc1.append(np.mean(cA))
+            dwtc2.append(np.mean(cD))
+
+            wp = pywt.WaveletPacket(data=row, wavelet='db4', maxlevel=2)
+            dwtpc1.append(np.mean(wp['aa'].data))
+            dwtpc2.append(np.mean(wp['ad'].data))
+            dwtpc3.append(np.mean(wp['dd'].data))
+
+        dwtc1 = np.array(dwtc1)
+        dwtc2 = np.array(dwtc2)
+        dwtpc1 = np.array(dwtpc1)
+        dwtpc2 = np.array(dwtpc2)
+        dwtpc3 = np.array(dwtpc3)
+
+        # Stack all features
+        features = np.stack([
+            zc, ssc, wl, wamp, mab, msq, rms, v3, lgdec, dabs, mfl, mpr, mavs, wmab,
+            cc1, cc2, cc3, cca,
+            dwtc1, dwtc2,
+            dwtpc1, dwtpc2, dwtpc3
+        ], axis=1)
+
+        return features
+
+
+
+
 
 from scipy.signal import cheby2
 

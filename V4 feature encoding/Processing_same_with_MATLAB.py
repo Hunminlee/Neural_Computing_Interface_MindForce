@@ -63,9 +63,9 @@ class EMGFeatureExtractor:
 
                 features[:, 14:, :] = (new_feats - new_mean) / new_std
 
-
         if features.shape[2] > feat_exclude:
             features = features[:, :, feat_exclude-1:]  # <-- FIXED HERE
+
         return features
 
 

@@ -27,8 +27,7 @@ Info_sub_H = ['Stand (5/27)', 'Stand (6/18)', 'Stand (6/20)', 'Sit_chair (6/20)'
             'Stand (7/11)', 'Sit_chair (7/11)', 'Sit_chair_leg_crossed (7/11)', 'Sit_floor (7/11)']
 
 Info_sub_X = ['Stand (6/24)', 'Sit_chair (6/24)', 'Stand (6/26)', 'Sit_chair (6/26)', 'Stand (6/27)', 'Sit_chair (6/27)', 'Stand (6/30)', 'Sit_chair (6/30)',
-              'Stand (7/1)', 'Sit_chair (7/1)', 'Stand (7/2)', 'Sit_chair (7/2)', 'Stand (7/9)', 'Sit_chair (7/9)', 'Stand (7/10)', 'Sit_chair (7/10)',
-              'Stand (7/11)', 'Sit_chair (7/11)']
+              'Stand (7/1)', 'Sit_chair (7/1)', 'Stand (7/2)', 'Sit_chair (7/2)', 'Stand (7/9)', 'Sit_chair (7/9)', 'Stand (7/11)', 'Sit_chair (7/11)']
 Info_sub_B = ['Stand (6/27)', 'Sit_chair (6/27)', 'Stand (7/9)', 'Sit_chair (7/9)', 'Stand (7/10)', 'Sit_chair (7/10)']
 Info_sub_C = ['Stand (6/30)', 'Sit_chair (6/30)', 'Stand (7/9)', 'Sit_chair (7/9)', 'Stand (7/10)', 'Sit_chair (7/10)', 'Stand (7/11)', 'Sit_chair (7/11)']
 Info_sub_H2 = ['Stand (7/9)', 'Sit_chair (7/9)', 'Stand (7/10)', 'Sit_chair (7/10)', 'Stand (7/11)', 'Sit_chair (7/11)']

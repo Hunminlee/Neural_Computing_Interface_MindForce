@@ -101,6 +101,7 @@ class TremorModelTrainer:
         print(f"Accuracy of test dataset using model V0: {acc * 100:.4f}%")
         return float(np.max(history.history['val_accuracy']) * 100), self.model
 
+
     def save_results(self, filepath):
         df = pd.DataFrame({
             'Info': self.info_labels,

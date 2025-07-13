@@ -88,7 +88,7 @@ class TremorModelTrainer:
         return float(np.max(history.history['val_accuracy']) * 100), self.model
 
 
-    def train_multiple_dataset(self, X_train, y_train, X_test, y_test):
+    def train_multiple_dataset_1D(self, X_train, y_train, X_test, y_test):
         self.model = self.Model_1D_CNN(X_train.shape[1:])
 
         history, self.model = Model.Train_model(

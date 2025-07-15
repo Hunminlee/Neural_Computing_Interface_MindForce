@@ -90,17 +90,17 @@ class EMGFeatureExtractor:
         return features
 
     #
-    def Normalization(self, features, target_feature_idx, feat_exclude=60):
+    def Normalization(self, features, target_feature_idx, mean, std, feat_exclude=60):
         if self.normalization:
             if self.num_feature_set == 14:
-                features = (features - self.feat_mean[target_feature_idx]) / self.feat_std[target_feature_idx]
+                features = (features - mean) / std
 
             elif self.num_feature_set == 23:
                 # features shape: (n_channels, 23, n_windows)
 
                 # 1️⃣ 기존 14개 feature normalization
                 if target_feature_idx < 14:
-                    features[:, target_feature_idx, :] = (features[:, target_feature_idx, :] - self.feat_mean[target_feature_idx]) / self.feat_std[target_feature_idx]
+                    features[:, target_feature_idx, :] = (features[:, target_feature_idx, :] - mean) / std
                 else:
                     # 2️⃣ 새로 추가된 9개 feature는 각 채널별로 time-mean/std 계산
                     new_feats = features[:, target_feature_idx, :]  # shape: (n_channels, 9, n_windows)

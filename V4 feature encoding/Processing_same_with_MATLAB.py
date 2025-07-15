@@ -52,8 +52,7 @@ class EMGFeatureExtractor:
                 # features shape: (n_channels, 23, n_windows)
 
                 # 1️⃣ 기존 14개 feature normalization
-                features[:, :14, :] = (features[:, :14, :] - self.feat_mean[:, :, np.newaxis]) / self.feat_std[:, :,
-                                                                                                 np.newaxis]
+                features[:, :14, :] = (features[:, :14, :] - self.feat_mean[:, :, np.newaxis]) / self.feat_std[:, :, np.newaxis]
 
                 # 2️⃣ 새로 추가된 9개 feature는 각 채널별로 time-mean/std 계산
                 new_feats = features[:, 14:, :]  # shape: (n_channels, 9, n_windows)

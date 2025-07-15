@@ -94,7 +94,7 @@ class TremorModelTrainer:
         history, self.model = Model.Train_model(
             self.model, X_train, y_train, X_test, y_test,
             set_epoch=self.epochs, set_batch_size=self.batch_size, Model_name='V0',
-            set_verbose=False, save_model_set=True
+            set_verbose=False, save_model_set=False
         )
 
         acc = self.model.evaluate(X_test, y_test, verbose=0)[1]

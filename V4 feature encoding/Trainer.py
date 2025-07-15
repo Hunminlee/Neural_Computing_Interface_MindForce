@@ -32,8 +32,12 @@ class TremorModelTrainer:
             self.default_path = config.default_path_sub_C
             self.info_labels = config.Info_sub_C
             self.dataset_info = config.dataset_sub_C
+        elif subject == "Harold":
+            self.default_path = config.default_path_sub_H2
+            self.info_labels = config.Info_sub_H2
+            self.dataset_info = config.dataset_sub_H2
         else:
-            print("subject must be Hunmin, Xianyu, Brian, Carlson")
+            print("subject must be Hunmin, Xianyu, Brian, Carlson, Harold")
             return
 
         self.classes = config.classes_5

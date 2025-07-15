@@ -18,37 +18,38 @@ from scipy.signal import lfilter, medfilt
 from sklearn.decomposition import PCA
 
 class EMGFeatureExtractor:
-    def __init__(self, feat_mean, feat_std, filter_b, filter_a, Norm_bool):
+    def __init__(self, feat_mean, feat_std, filter_b, filter_a, Norm_bool, num_feature_set):
         self.feat_mean = feat_mean
         self.feat_std = feat_std
         self.filter_b = filter_b
         self.filter_a = filter_a
         self.buffer = None  # to be set externally
         self.normalization = Norm_bool
+        self.num_feature_set = num_feature_set
 
 
-    def extract_features(self, num_feature_set, win_size=600, win_step=120, feat_exclude=60):
+    def extract_features(self, win_size=600, win_step=120, feat_exclude=60):
         buf = lfilter(self.filter_b, self.filter_a, self.buffer, axis=1)
         nch, len_x = buf.shape
         n_steps = (len_x - win_size) // win_step + 1
 
-        features = np.zeros((nch, num_feature_set, n_steps))
+        features = np.zeros((nch, self.num_feature_set, n_steps))
 
         for i in range(n_steps):
             x = buf[:, i*win_step:i*win_step+win_size]
-            if num_feature_set==23:
+            if self.num_feature_set==23:
                 features[:, :, i] = self.extract_feature_win_23_feats(x)
-            elif num_feature_set==14:
+            elif self.num_feature_set==14:
                 features[:, :, i] = self.extract_feature_win(x)
             else:
                 print("num_feature_set should be either 23 or 14")
                 break
 
         if self.normalization:
-            if num_feature_set == 14:
+            if self.num_feature_set == 14:
                 features = (features - self.feat_mean[:, :, np.newaxis]) / self.feat_std[:, :, np.newaxis]
 
-            elif num_feature_set == 23:
+            elif self.num_feature_set == 23:
                 # features shape: (n_channels, 23, n_windows)
 
                 # 1️⃣ 기존 14개 feature normalization
@@ -68,30 +69,33 @@ class EMGFeatureExtractor:
         return features
 
 
-    def extract_one_feature_at_a_time(self, num_feature_set, target_feature_idx, win_size=600, win_step=120, feat_exclude=60):
+    def extract_one_feature_at_a_time(self, target_feature_idx,  win_size=600, win_step=120):
         buf = lfilter(self.filter_b, self.filter_a, self.buffer, axis=1)
         nch, len_x = buf.shape
         n_steps = (len_x - win_size) // win_step + 1
 
-        features = np.zeros((nch, num_feature_set, n_steps))
+        features = np.zeros((nch, self.num_feature_set, n_steps))
 
         for i in range(n_steps):
             x = buf[:, i*win_step:i*win_step+win_size]
-            if num_feature_set==23:
+            if self.num_feature_set==23:
                 features[:, :, i] = self.extract_feature_win_23_feats(x)
-            elif num_feature_set==14:
+            elif self.num_feature_set==14:
                 features[:, :, i] = self.extract_feature_win(x)
             else:
                 print("num_feature_set should be either 23 or 14")
                 break
         features = features[:, target_feature_idx, :]  #channel(4) / feature 18 / samples
 
+        return features
 
+    #
+    def Normalization(self, features, target_feature_idx, feat_exclude=60):
         if self.normalization:
-            if num_feature_set == 14:
+            if self.num_feature_set == 14:
                 features = (features - self.feat_mean[target_feature_idx]) / self.feat_std[target_feature_idx]
 
-            elif num_feature_set == 23:
+            elif self.num_feature_set == 23:
                 # features shape: (n_channels, 23, n_windows)
 
                 # 1️⃣ 기존 14개 feature normalization
@@ -106,10 +110,13 @@ class EMGFeatureExtractor:
 
                 features[:, target_feature_idx, :] = (new_feats - new_mean) / new_std
 
+        #print(features.shape, feat_exclude)
         if features.shape[-1] > feat_exclude:
+            #print("exclusion initiated")
             features = features[:, feat_exclude-1:]  # <-- FIXED HERE
 
         return features
+
 
 
     def extract_tail_features(self, feat_num, win_size=600, win_step=120):

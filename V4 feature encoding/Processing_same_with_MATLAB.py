@@ -68,6 +68,50 @@ class EMGFeatureExtractor:
         return features
 
 
+    def extract_one_feature_at_a_time(self, num_feature_set, target_feature_idx, win_size=600, win_step=120, feat_exclude=60):
+        buf = lfilter(self.filter_b, self.filter_a, self.buffer, axis=1)
+        nch, len_x = buf.shape
+        n_steps = (len_x - win_size) // win_step + 1
+
+        features = np.zeros((nch, num_feature_set, n_steps))
+
+        for i in range(n_steps):
+            x = buf[:, i*win_step:i*win_step+win_size]
+            if num_feature_set==23:
+                features[:, :, i] = self.extract_feature_win_23_feats(x)
+            elif num_feature_set==14:
+                features[:, :, i] = self.extract_feature_win(x)
+            else:
+                print("num_feature_set should be either 23 or 14")
+                break
+        features = features[:, target_feature_idx, :]  #channel(4) / feature 18 / samples
+
+
+        if self.normalization:
+            if num_feature_set == 14:
+                features = (features - self.feat_mean[target_feature_idx]) / self.feat_std[target_feature_idx]
+
+            elif num_feature_set == 23:
+                # features shape: (n_channels, 23, n_windows)
+
+                # 1️⃣ 기존 14개 feature normalization
+                if target_feature_idx < 14:
+                    features[:, target_feature_idx, :] = (features[:, target_feature_idx, :] - self.feat_mean[target_feature_idx]) / self.feat_std[target_feature_idx]
+                else:
+                    # 2️⃣ 새로 추가된 9개 feature는 각 채널별로 time-mean/std 계산
+                    new_feats = features[:, target_feature_idx, :]  # shape: (n_channels, 9, n_windows)
+
+                new_mean = np.mean(new_feats, keepdims=True)  # shape: (n_channels, 9, 1)
+                new_std = np.std(new_feats, keepdims=True) + 1e-6
+
+                features[:, target_feature_idx, :] = (new_feats - new_mean) / new_std
+
+        if features.shape[-1] > feat_exclude:
+            features = features[:, feat_exclude-1:]  # <-- FIXED HERE
+
+        return features
+
+
     def extract_tail_features(self, feat_num, win_size=600, win_step=120):
         n_samples = win_size + (feat_num - 1) * win_step
         if self.buffer.shape[1] < n_samples:

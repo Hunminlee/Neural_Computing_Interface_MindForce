@@ -98,7 +98,7 @@ class ProgressiveTrainer:
             self.trained_acc_all.append(test_acc)
             self.prev_acc_all.append(prev_acc)
 
-        return self.init_acc_all, self.trained_acc_all, self.prev_acc_all
+        return self.init_acc_all, self.prev_acc_all, self.trained_acc_all
 
 
     def plot_results(self, baselines, baseline_K):

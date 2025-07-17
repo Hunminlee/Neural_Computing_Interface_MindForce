@@ -26,7 +26,9 @@ Info_sub_H = ['Stand (5/27)', 'Stand (6/18)', 'Stand (6/20)', 'Sit_chair (6/20)'
             'Stand (7/7)', 'Sit_chair (7/7)', 'Sit_chair_leg_crossed (7/7)', 'Sit_floor (7/7)',
             'Stand (7/9)', 'Sit_chair (7/9)', 'Sit_chair_leg_crossed (7/9)', 'Sit_floor (7/9)',
             'Stand (7/10)', 'Sit_chair (7/10)', 'Sit_chair_leg_crossed (7/10)', 'Sit_floor (7/10)',
-            'Stand (7/11)', 'Sit_chair (7/11)', 'Sit_chair_leg_crossed (7/11)', 'Sit_floor (7/11)']
+            'Stand (7/11)', 'Sit_chair (7/11)', 'Sit_chair_leg_crossed (7/11)', 'Sit_floor (7/11)',
+            'Sit_chair (7/15)',
+            'Stand (7/17)', 'Sit_chair (7/17)', 'Sit_floor (7/17)']
 
 # Low quality dataset
 #'Sit_chair (7/2)', 'Sit_chair_leg_crossed (7/2)', 'Sit_floor (7/2)', 'Stand (7/3)', 'Sit_chair (7/3)', 'Sit_chair_leg_crossed (7/3)', 'Sit_floor (7/3)'
@@ -54,7 +56,9 @@ dataset_sub_H = ["Exp_2025-05-27/E8331D05289A/", "Exp_2025-06-18/E9AD0E7DCC2B/",
             "Exp_2025-07-07-v1/E9AD0E7DCC2B/", "Exp_2025-07-07-v2/E9AD0E7DCC2B/", "Exp_2025-07-07-v3/E9AD0E7DCC2B/", "Exp_2025-07-07-v4/E9AD0E7DCC2B/",
             "Exp_2025-07-09-v1/E9AD0E7DCC2B/", "Exp_2025-07-09-v2/E9AD0E7DCC2B/", "Exp_2025-07-09-v3/E9AD0E7DCC2B/", "Exp_2025-07-09-v4/E9AD0E7DCC2B/",
             "Exp_2025-07-10-v1/E9AD0E7DCC2B/", "Exp_2025-07-10-v2/E9AD0E7DCC2B/", "Exp_2025-07-10-v3/E9AD0E7DCC2B/", "Exp_2025-07-10-v4/E9AD0E7DCC2B/",
-            "Exp_2025-07-11-v1/E9AD0E7DCC2B/", "Exp_2025-07-11-v2/E9AD0E7DCC2B/", "Exp_2025-07-11-v3/E9AD0E7DCC2B/", "Exp_2025-07-11-v4/E9AD0E7DCC2B/"]
+            "Exp_2025-07-11-v1/E9AD0E7DCC2B/", "Exp_2025-07-11-v2/E9AD0E7DCC2B/", "Exp_2025-07-11-v3/E9AD0E7DCC2B/", "Exp_2025-07-11-v4/E9AD0E7DCC2B/",
+            "Exp_2025-07-15-v2/E9AD0E7DCC2B/",
+            "Exp_2025-07-17-v1/E9AD0E7DCC2B/", "Exp_2025-07-17-v2/E9AD0E7DCC2B/", "Exp_2025-07-17-v3/E9AD0E7DCC2B/"]
 # Low quality
 # "Exp_2025-07-02-v2/E9AD0E7DCC2B/", "Exp_2025-07-02-v3/E9AD0E7DCC2B/", "Exp_2025-07-02-v4/E9AD0E7DCC2B/", "Exp_2025-07-03-v1/E9AD0E7DCC2B/", "Exp_2025-07-03-v2/E9AD0E7DCC2B/", "Exp_2025-07-03-v3/E9AD0E7DCC2B/", "Exp_2025-07-03-v4/E9AD0E7DCC2B/",
 

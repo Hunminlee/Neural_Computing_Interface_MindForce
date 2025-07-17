@@ -117,7 +117,7 @@ class ProgressiveTrainer:
         plt.ylim([0, 1])
         plt.xlabel('Date (Sessions)')
         plt.ylabel('Test Accuracy')
-        plt.xticks(rotation=60)
+        plt.xticks(rotation=90)
         plt.legend()
         plt.grid(True)
         plt.tight_layout()

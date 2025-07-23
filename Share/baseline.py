@@ -16,7 +16,7 @@ import config
 importlib.reload(Model)
 
 
-class TremorModelTrainer:
+class ModelTrainer:
     def __init__(self, config, subject):
         if subject == "Hunmin":
             self.default_path = config.default_path_sub_H
@@ -147,6 +147,8 @@ class TremorModelTrainer:
         return df
 
 
+
+    ###Accumulated K
     def return_K_data(self, K):
         X_train_all, y_train_all = [], []
         X_test_all, y_test_all = [], []
@@ -179,6 +181,53 @@ class TremorModelTrainer:
                 X_test_stacked = np.concatenate(X_test_all, axis=0)
                 y_test_stacked = np.concatenate(y_test_all, axis=0)
 
-        print(X_train_stacked.shape, y_train_stacked.shape), X_test_stacked.shape, y_test_stacked.shape
+        #print(X_train_stacked.shape, y_train_stacked.shape), X_test_stacked.shape, y_test_stacked.shape
 
         return X_train_stacked, y_train_stacked, X_test_stacked, y_test_stacked
+
+
+
+    def return_until_K_data(self, K):
+        X_train_all, y_train_all = [], []
+        X_test_all, y_test_all = [], []
+
+        for idx, session_info in enumerate(self.dataset_info):
+            if idx < K:
+                path = os.path.join(self.default_path, f'{session_info}/raw/')
+                print(f"Dataset {idx + 1}/{len(self.dataset_info)} - Session {session_info}\n{'=' * 40}")
+                feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)
+                X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, ratio=0.9)
+
+                # Stack cumulatively
+                X_train_all.append(X_train)
+                y_train_all.append(y_train)
+
+                X_test_all.append(X_test)
+                y_test_all.append(y_test)
+
+                # Concatenate all so far
+                X_train_stacked = np.concatenate(X_train_all, axis=0)
+                y_train_stacked = np.concatenate(y_train_all, axis=0)
+
+                X_test_stacked = np.concatenate(X_test_all, axis=0)
+                y_test_stacked = np.concatenate(y_test_all, axis=0)
+
+
+        #print(X_train_stacked.shape, y_train_stacked.shape, X_test_stacked.shape, y_test_stacked.shape)
+
+        return X_train_stacked, y_train_stacked, X_test_stacked, y_test_stacked
+
+
+    def return_K_th_data_only(self, K):
+        """
+        Return only the K-th session's data (0-indexed).
+        """
+        session_info = self.dataset_info[K]
+        print(f"Returning K-th session data: {session_info}\n{'=' * 40}")
+
+        path = os.path.join(self.default_path, f'{session_info}/raw/')
+        feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)
+        X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, ratio=0.9)
+
+        #print(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
+        return X_train, y_train, X_test, y_test

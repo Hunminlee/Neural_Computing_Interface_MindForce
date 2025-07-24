@@ -39,11 +39,11 @@ Info_sub_X = ['Stand (6/24)', 'Sit_chair (6/24)', 'Stand (6/26)', 'Sit_chair (6/
               'Stand (7/1)', 'Sit_chair (7/1)', 'Stand (7/2)', 'Sit_chair (7/2)', 'Stand (7/9)', 'Sit_chair (7/9)', 'Stand (7/11)', 'Sit_chair (7/11)',
               'Stand (7/23)', 'Sit_chair (7/23)']
 Info_sub_B = ['Stand (6/27)', 'Sit_chair (6/27)', 'Stand (7/9)', 'Sit_chair (7/9)', 'Stand (7/10)', 'Sit_chair (7/10)', 'Stand (7/16)', 'Sit_chair (7/16)',
-              'Stand (7/17)', 'Sit_chair (7/17)', 'Stand (7/23)', 'Sit_chair (7/23)']
+              'Stand (7/17)', 'Sit_chair (7/17)']
 Info_sub_C = ['Stand (6/30)', 'Sit_chair (6/30)', 'Stand (7/9)', 'Sit_chair (7/9)', 'Stand (7/10)', 'Sit_chair (7/10)', 'Stand (7/11)', 'Sit_chair (7/11)',
               'Stand (7/16)', 'Sit_chair (7/16)', 'Stand (7/17)', 'Sit_chair (7/17)', 'Stand (7/23)', 'Sit_chair (7/23)']
 Info_sub_H2 = ['Stand (7/9)', 'Sit_chair (7/9)', 'Stand (7/10)', 'Sit_chair (7/10)', 'Stand (7/11)', 'Sit_chair (7/11)', 'Stand (7/16)', 'Sit_chair (7/16)',
-               'Stand (7/17)', 'Sit_chair (7/17)', 'Stand (7/23)', 'Sit_chair (7/23)']
+               'Stand (7/17)', 'Sit_chair (7/17)', 'Stand (7/23)', 'Sit_chair (7/23)', 'Stand (7/24)', 'Sit_chair (7/24)']
 
 
 #Date / Bluetooth address
@@ -84,4 +84,5 @@ dataset_sub_C = ["Exp_2025-06-30-v1/E9AD0E7DCC2B/", "Exp_2025-06-30-v2/E9AD0E7DC
 
 dataset_sub_H2 = ["Exp_2025-07-09-v1/E9AD0E7DCC2B/", "Exp_2025-07-09-v2/E9AD0E7DCC2B/", "Exp_2025-07-10-v1/E9AD0E7DCC2B/", "Exp_2025-07-10-v2/E9AD0E7DCC2B/",
                   "Exp_2025-07-11-v1/E9AD0E7DCC2B/", "Exp_2025-07-11-v2/E9AD0E7DCC2B/", "Exp_2025-07-16-v1/E9AD0E7DCC2B/", "Exp_2025-07-16-v2/E9AD0E7DCC2B/",
-                  "Exp_2025-07-17-v1/E9AD0E7DCC2B/", "Exp_2025-07-17-v2/E9AD0E7DCC2B/", "Exp_2025-07-23-v1/E9AD0E7DCC2B/", "Exp_2025-07-23-v2/E9AD0E7DCC2B/"]
+                  "Exp_2025-07-17-v1/E9AD0E7DCC2B/", "Exp_2025-07-17-v2/E9AD0E7DCC2B/", "Exp_2025-07-23-v1/E9AD0E7DCC2B/", "Exp_2025-07-23-v2/E9AD0E7DCC2B/",
+                  "Exp_2025-07-24-v1/E9AD0E7DCC2B/", "Exp_2025-07-24-v2/E9AD0E7DCC2B/"]

@@ -187,7 +187,7 @@ class ModelTrainer:
 
 
 
-    def return_until_K_data(self, K):
+    def return_until_K_data(self, K, train_ratio):
         X_train_all, y_train_all = [], []
         X_test_all, y_test_all = [], []
 
@@ -196,7 +196,7 @@ class ModelTrainer:
                 path = os.path.join(self.default_path, f'{session_info}/raw/')
                 print(f"Dataset {idx + 1}/{len(self.dataset_info)} - Session {session_info}\n{'=' * 40}")
                 feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)
-                X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, ratio=0.9)
+                X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, ratio=train_ratio)
 
                 # Stack cumulatively
                 X_train_all.append(X_train)
@@ -218,7 +218,7 @@ class ModelTrainer:
         return X_train_stacked, y_train_stacked, X_test_stacked, y_test_stacked
 
 
-    def return_K_th_data_only(self, K):
+    def return_K_th_data_only(self, K, train_ratio):
         """
         Return only the K-th session's data (0-indexed).
         """
@@ -227,7 +227,7 @@ class ModelTrainer:
 
         path = os.path.join(self.default_path, f'{session_info}/raw/')
         feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)
-        X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, ratio=0.9)
+        X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, ratio=train_ratio)
 
         #print(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
         return X_train, y_train, X_test, y_test

@@ -28,7 +28,8 @@ Info_sub_H = ['Stand (5/27)', 'Stand (6/18)', 'Stand (6/20)', 'Sit_chair (6/20)'
             'Stand (7/10)', 'Sit_chair (7/10)', 'Sit_chair_leg_crossed (7/10)', 'Sit_floor (7/10)',
             'Stand (7/11)', 'Sit_chair (7/11)', 'Sit_chair_leg_crossed (7/11)', 'Sit_floor (7/11)',
             'Sit_chair (7/15)',
-            'Stand (7/17)', 'Sit_chair (7/17)', 'Sit_floor (7/17)', 'Stand (7/23)', 'Sit_chair (7/23)', 'Sit_floor (7/23)']
+            'Stand (7/17)', 'Sit_chair (7/17)', 'Sit_floor (7/17)', 'Stand (7/23)', 'Sit_chair (7/23)', 'Sit_floor (7/23)',
+            'Stand (7/24)', 'Sit_chair (7/24)', 'Sit_floor (7/24)']
 
 # Low quality dataset
 #'Sit_chair (7/2)', 'Sit_chair_leg_crossed (7/2)', 'Sit_floor (7/2)', 'Stand (7/3)', 'Sit_chair (7/3)', 'Sit_chair_leg_crossed (7/3)', 'Sit_floor (7/3)'

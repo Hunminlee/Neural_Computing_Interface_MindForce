@@ -60,3 +60,27 @@ def online_update(model, new_sample, pseudo_label, learning_rate=0.001):
 def generate_pseudo_label(model, x):
     y_pred = model.predict(x, verbose=0)
     return np.argmax(y_pred, axis=1)
+
+
+
+
+def detection_model():
+    import lightgbm as lgb
+
+    def detection_model():
+        """
+        Create and return a LightGBM binary classification model.
+        """
+        model = lgb.LGBMClassifier(
+            objective='binary',
+            boosting_type='gbdt',
+            n_estimators=100,
+            learning_rate=0.1,
+            max_depth=-1,
+            num_leaves=31,
+            random_state=42,
+            n_jobs=-1
+        )
+        return model
+
+

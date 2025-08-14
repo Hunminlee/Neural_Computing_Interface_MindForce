@@ -27,7 +27,6 @@ default_path_sub_M = "C:/Users/hml76/PycharmProjects/MindForce/data/Data_Minjeon
 
 
 
-
 Info_sub_H = ['Stand (5/27)', 'Stand (6/18)', 'Stand (6/20)', 'Sit_chair (6/20)', 'Sit_chair_leg_crossed (6/20)', 'Sit_floor (6/20)',
             'Stand (6/20-v2)', 'Sit_chair (6/20-v2)', 'Sit_chair_leg_crossed (6/20-v2)', 'Sit_floor (6/20-v2)',
             'Stand (6/23)', 'Sit_chair (6/23)', 'Sit_chair_leg_crossed (6/23)', 'Sit_floor (6/23)',

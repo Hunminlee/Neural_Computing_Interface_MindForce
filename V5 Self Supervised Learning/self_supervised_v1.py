@@ -41,6 +41,36 @@ def build_model(input_shape=(4, 14, 1), num_classes=6):
     return model
 
 
+
+
+def build_encoder_model(input_shape=(4, 14, 1)):
+    model = models.Sequential([
+        layers.InputLayer(shape=input_shape),
+
+        layers.Conv2D(8, (3, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.ReLU(),
+        layers.MaxPooling2D(pool_size=(2, 2), strides=2, padding='same'),
+
+        layers.Conv2D(16, (3, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.ReLU(),
+        layers.MaxPooling2D(pool_size=(2, 2), strides=2, padding='same'),
+
+        layers.Conv2D(32, (3, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.ReLU(),
+        layers.MaxPooling2D(pool_size=(2, 2), strides=2, padding='same'),
+
+        layers.Dropout(0.5),
+        layers.Flatten(),
+        layers.Dense(64),
+        layers.ReLU(),  # 마지막 embedding vector
+        layers.Dropout(0.5)
+    ])
+    return model
+
+
 def build_model_after_detection(input_shape=(4, 14, 1), num_classes=5):
     model = models.Sequential([
         layers.InputLayer(shape=input_shape),

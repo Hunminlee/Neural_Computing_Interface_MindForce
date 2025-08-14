@@ -47,13 +47,13 @@ def get_dataset(path, classes, show_labels):
 
 
 
-def split_data(X, Y, ratio):
+def split_data(X, Y, train_ratio):
     #Splits (N, C, F) data and 1D labels into training and validation sets.
 
     num_samples = X.shape[0]
     indices = np.random.permutation(num_samples)
 
-    training_size = int(round(num_samples * ratio))
+    training_size = int(round(num_samples * train_ratio))
     training_indices = indices[:training_size]
     validation_indices = indices[training_size:]
 

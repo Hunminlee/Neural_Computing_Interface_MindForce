@@ -51,9 +51,9 @@ class ModelTrainer:
 
     def train(self, path, train_ratio=0.8):
         feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)
-        X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, ratio=train_ratio)
+        X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, train_ratio=train_ratio)
 
-        self.model = Model.Original_model_V1(X_train.shape[1:])
+        self.model = Model.Original_model(X_train.shape[1:], self.classes)
 
         history, self.model = Model.Train_model(
             self.model, X_train, y_train, X_test, y_test,
@@ -67,7 +67,9 @@ class ModelTrainer:
 
 
     def train_multiple_dataset(self, X_train, y_train, X_test, y_test):
-        self.model = Model.Original_model_V1(X_train.shape[1:])
+
+        self.model = Model.Original_model(X_train.shape[1:], num_class=6)
+        #self.model = Model.Original_model(X_train.shape[1:], self.classes)
 
         history, self.model = Model.Train_model(
             self.model, X_train, y_train, X_test, y_test,
@@ -82,7 +84,7 @@ class ModelTrainer:
 
     def test(self, path):
         feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)
-        _, _, X_test, y_test = utils.split_data(feature_set, labels, ratio=0)
+        _, _, X_test, y_test = utils.split_data(feature_set, labels, train_ratio=0)
         acc = self.model.evaluate(X_test, y_test, verbose=0)[1]
         print(f"Accuracy on unseen dataset: {acc * 100:.4f}%")
         return float(np.round(acc * 100, 2))
@@ -98,7 +100,7 @@ class ModelTrainer:
 
             if idx < K:
                 feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)
-                X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, ratio=0.99)
+                X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, train_ratio=0.99)
 
                 # Stack cumulatively
                 X_train_all.append(X_train)
@@ -115,6 +117,7 @@ class ModelTrainer:
                 print(X_train_stacked.shape, y_train_stacked.shape, X_test_stacked.shape, y_test_stacked.shape)
 
             elif idx == K:
+                print("second", X_train_stacked.shape, y_train_stacked.shape, X_test_stacked.shape, y_test_stacked.shape)
                 acc, _ = self.train_multiple_dataset(X_train_stacked, y_train_stacked, X_test_stacked, y_test_stacked)
 
             else:
@@ -159,7 +162,7 @@ class ModelTrainer:
 
             if idx < K:
                 feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)
-                X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, ratio=0.99)
+                X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, train_ratio=0.99)
 
                 # Stack cumulatively
                 X_train_all.append(X_train)
@@ -171,7 +174,7 @@ class ModelTrainer:
 
             else:
                 feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)
-                _, _, X_test, y_test = utils.split_data(feature_set, labels, ratio=0)
+                _, _, X_test, y_test = utils.split_data(feature_set, labels, train_ratio=0)
 
                 # Stack cumulatively
                 X_test_all.append(X_test)
@@ -196,7 +199,7 @@ class ModelTrainer:
                 path = os.path.join(self.default_path, f'{session_info}/raw/')
                 print(f"Dataset {idx + 1}/{len(self.dataset_info)} - Session {session_info}\n{'=' * 40}")
                 feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)
-                X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, ratio=train_ratio)
+                X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, train_ratio=train_ratio)
 
                 # Stack cumulatively
                 X_train_all.append(X_train)
@@ -227,7 +230,7 @@ class ModelTrainer:
 
         path = os.path.join(self.default_path, f'{session_info}/raw/')
         feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)
-        X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, ratio=train_ratio)
+        X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, train_ratio=train_ratio)
 
         #print(X_train.shape, y_train.shape, X_test.shape, y_test.shape)
         return X_train, y_train, X_test, y_test

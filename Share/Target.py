@@ -60,9 +60,9 @@ class ProgressiveTrainer:
 
     def get_result(self, path, first_time, plot_learning_curve):
         feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)
-        X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, ratio=self.train_ratio)
+        X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, train_ratio=self.train_ratio)
 
-        model = Model.Original_model_V1(X_train.shape[1:])
+        model = Model.Original_model(X_train.shape[1:], num_class=6)
         init_acc = model.evaluate(X_test, y_test, verbose=0)[1]
 
         history, _ = Model.Train_model(

@@ -138,7 +138,7 @@ class EMGFeatureExtractor:
         features = (features - self.feat_mean[:, :, np.newaxis]) / self.feat_std[:, :, np.newaxis]
         return features
 
-
+    # 따로 안쓰는듯
     def filter_features(self, features):
         reshaped = features.reshape(features.shape[0]*features.shape[1], -1).T
         pca = PCA(n_components=1)

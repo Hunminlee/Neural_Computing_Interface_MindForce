@@ -7,14 +7,14 @@ from tensorflow.keras.callbacks import ModelCheckpoint
 import warnings
 warnings.filterwarnings('ignore')
 
-
-
-def Original_model_V1(input_size):
-
+'''
+#def Original_model_V1(input_size):
+def Original_model(input_size, num_class):
+    input_shape = (4, 14, 1)
     filter_size = (3, 3)  # or your desired kernel size
 
     model = models.Sequential([
-        layers.InputLayer(shape=input_size, name="imageinput"),
+        layers.InputLayer(shape=input_shape, name="imageinput"),
 
         layers.Conv2D(8, filter_size, padding='same', name="conv_1"),
         layers.BatchNormalization(),
@@ -39,7 +39,7 @@ def Original_model_V1(input_size):
         layers.ReLU(name="relu_5_2"),
         layers.Dropout(0.5),
 
-        layers.Dense(6, activation='softmax', name="fc_3")  # 6-class classification
+        layers.Dense(num_class, activation='softmax', name="fc_3")  # 6-class classification
     ])
 
     # Compile the model
@@ -55,6 +55,86 @@ def Original_model_V1(input_size):
     )
 
     return model
+'''
+
+def Original_model(input_shape, num_class=6):
+    #input_shape = (4, 14, 1)
+    model = models.Sequential([
+        layers.InputLayer(shape=input_shape),
+
+        layers.Conv2D(8, (3, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.ReLU(),
+        layers.MaxPooling2D(pool_size=(2, 2), strides=2, padding='same'),
+
+        layers.Conv2D(16, (3, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.ReLU(),
+        layers.MaxPooling2D(pool_size=(2, 2), strides=2, padding='same'),
+
+        layers.Conv2D(32, (3, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.ReLU(),
+        layers.MaxPooling2D(pool_size=(2, 2), strides=2, padding='same'),
+
+        layers.Dropout(0.5),
+        layers.Flatten(),
+        layers.Dense(64),
+        layers.ReLU(),
+        layers.Dropout(0.5),
+        layers.Dense(num_class, activation='softmax')
+    ])
+
+    model.compile(
+        optimizer=optimizers.Adam(learning_rate=0.05),
+        loss='sparse_categorical_crossentropy',
+        metrics=['accuracy']
+    )
+    return model
+
+
+def Original_model_1DCNN(input_size, num_class):
+    model = models.Sequential([
+        layers.InputLayer(input_shape=input_size, name="input"),  # input_size = (time, channels)
+
+        layers.Conv1D(8, kernel_size=3, padding='same', name="conv_1"),
+        layers.BatchNormalization(),
+        layers.ReLU(name="relu_1"),
+        layers.MaxPooling1D(pool_size=2, strides=2, padding='same', name="maxpool_1"),
+
+        layers.Conv1D(16, kernel_size=3, padding='same', name="conv_2"),
+        layers.BatchNormalization(),
+        layers.ReLU(name="relu_2"),
+        layers.MaxPooling1D(pool_size=2, strides=2, padding='same', name="maxpool_2"),
+
+        layers.Conv1D(32, kernel_size=3, padding='same', name="conv_3"),
+        layers.BatchNormalization(),
+        layers.ReLU(name="relu_3"),
+        layers.MaxPooling1D(pool_size=2, strides=2, padding='same', name="maxpool_3"),
+
+        layers.Dropout(0.5),
+
+        layers.Flatten(),
+        layers.Dense(64, name="fc_1"),
+        layers.ReLU(name="relu_4"),
+        layers.Dropout(0.5),
+
+        layers.Dense(num_class, activation='softmax', name="output")
+    ])
+
+    optimizer = optimizers.SGD(learning_rate=0.01, momentum=0.85)
+    #optimizer = tf.keras.optimizers.Adam(learning_rate=0.025)
+    #optimizer = tf.keras.optimizers.AdamW(learning_rate=0.01, weight_decay=1e-4)
+
+    model.compile(
+        optimizer=optimizer,
+        loss='sparse_categorical_crossentropy',
+        metrics=['accuracy']
+    )
+
+    return model
+
+
 
 
 def Train_model(model, X_train, y_train, X_test, y_test, set_epoch, set_batch_size, Model_name, set_verbose, save_model_set):
@@ -64,7 +144,7 @@ def Train_model(model, X_train, y_train, X_test, y_test, set_epoch, set_batch_si
     )
 
     # Optional: Early stopping or model checkpointing
-    early_stop = callbacks.EarlyStopping(monitor='val_loss', patience=5, restore_best_weights=True)
+    early_stop = callbacks.EarlyStopping(monitor='val_accuracy', patience=30, restore_best_weights=True)
 
     # Save the best model - val accuracy
     checkpoint = ModelCheckpoint(
@@ -84,6 +164,7 @@ def Train_model(model, X_train, y_train, X_test, y_test, set_epoch, set_batch_si
             epochs=set_epoch,
             batch_size=set_batch_size,
             callbacks=[lr_schedule, early_stop, checkpoint],
+            #callbacks=[lr_schedule, checkpoint],
             shuffle=True,
             verbose=set_verbose
         )
@@ -96,6 +177,7 @@ def Train_model(model, X_train, y_train, X_test, y_test, set_epoch, set_batch_si
             epochs=set_epoch,
             batch_size=set_batch_size,
             callbacks=[lr_schedule, early_stop],
+            #callbacks=[lr_schedule],
             shuffle=True,
             verbose=set_verbose
         )

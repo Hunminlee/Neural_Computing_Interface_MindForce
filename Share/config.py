@@ -23,6 +23,7 @@ default_path_sub_X = "C:/Users/hml76/PycharmProjects/MindForce/data/Data_Xianyu/
 default_path_sub_B = "C:/Users/hml76/PycharmProjects/MindForce/data/Data_Brian/"
 default_path_sub_C = "C:/Users/hml76/PycharmProjects/MindForce/data/Data_Carlson/"
 default_path_sub_H2 = "C:/Users/hml76/PycharmProjects/MindForce/data/Data_Harold/"
+default_path_sub_M = "C:/Users/hml76/PycharmProjects/MindForce/data/Data_Minjeong/"
 
 
 
@@ -58,7 +59,7 @@ Info_sub_C = ['Stand (6/30)', 'Sit_chair (6/30)', 'Stand (7/9)', 'Sit_chair (7/9
 Info_sub_H2 = ['Stand (7/9)', 'Sit_chair (7/9)', 'Stand (7/10)', 'Sit_chair (7/10)', 'Stand (7/11)', 'Sit_chair (7/11)', 'Stand (7/16)', 'Sit_chair (7/16)',
                'Stand (7/17)', 'Sit_chair (7/17)', 'Stand (7/23)', 'Sit_chair (7/23)', 'Stand (7/24)', 'Sit_chair (7/24)', 'Stand (7/25)', 'Sit_chair (7/25)',
                'Stand (8/1)', 'Sit_chair (8/1)']
-Info_sub_M = ['Stand (8/1)', 'Sit_chair (8/1)', 'Stand (8/10)', 'Sit_chair (8/10)', 'Stand (8/11)', 'Sit_chair (8/11)', 'Stand (8/12)', 'Sit_chair (8/12)',
+Info_sub_M = ['Stand (8/1)', 'Sit_chair (8/1)', 'Stand (8/2)', 'Sit_chair (8/2)', 'Stand (8/9)', 'Sit_chair (8/9)', 'Stand (8/10)', 'Sit_chair (8/10)', 'Stand (8/11)', 'Sit_chair (8/11)', 'Stand (8/12)', 'Sit_chair (8/12)',
               'Stand (8/13)', 'Sit_chair (8/13)',]
 
 #Date / Bluetooth address
@@ -107,3 +108,8 @@ dataset_sub_H2 = ["Exp_2025-07-09-v1/E9AD0E7DCC2B/", "Exp_2025-07-09-v2/E9AD0E7D
                   "Exp_2025-07-17-v1/E9AD0E7DCC2B/", "Exp_2025-07-17-v2/E9AD0E7DCC2B/", "Exp_2025-07-23-v1/E9AD0E7DCC2B/", "Exp_2025-07-23-v2/E9AD0E7DCC2B/",
                   "Exp_2025-07-24-v1/E9AD0E7DCC2B/", "Exp_2025-07-24-v2/E9AD0E7DCC2B/", "Exp_2025-07-25-v1/E9AD0E7DCC2B/", "Exp_2025-07-25-v2/E9AD0E7DCC2B/",
                   "Exp_2025-08-01-v1/E9AD0E7DCC2B/", "Exp_2025-08-01-v2/E9AD0E7DCC2B/"]
+
+dataset_sub_M = ["Exp_2025-08-01-v1/E9AD0E7DCC2B/", "Exp_2025-08-01-v2/E9AD0E7DCC2B/", "Exp_2025-08-02-v1/E9AD0E7DCC2B/", "Exp_2025-08-02-v2/E9AD0E7DCC2B/",
+                  "Exp_2025-08-09-v1/E9AD0E7DCC2B/", "Exp_2025-08-09-v2/E9AD0E7DCC2B/", "Exp_2025-08-10-v1/E9AD0E7DCC2B/", "Exp_2025-08-10-v2/E9AD0E7DCC2B/",
+                  "Exp_2025-08-11-v1/E9AD0E7DCC2B/", "Exp_2025-08-11-v2/E9AD0E7DCC2B/", "Exp_2025-08-12-v1/E9AD0E7DCC2B/", "Exp_2025-08-12-v2/E9AD0E7DCC2B/",
+                  "Exp_2025-08-13-v1/E9AD0E7DCC2B/", "Exp_2025-08-13-v2/E9AD0E7DCC2B/", ]

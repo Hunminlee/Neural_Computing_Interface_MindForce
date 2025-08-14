@@ -38,8 +38,12 @@ class ModelTrainer:
             self.default_path = config.default_path_sub_H2
             self.info_labels = config.Info_sub_H2
             self.dataset_info = config.dataset_sub_H2
+        elif subject == "Minjeong":
+            self.default_path = config.default_path_sub_M
+            self.info_labels = config.Info_sub_M
+            self.dataset_info = config.dataset_sub_M
         else:
-            print("subject must be Hunmin, Xianyu, Brian, Carlson")
+            print("subject must be Hunmin, Xianyu, Brian, Carlson, or Minjeong")
             return
 
         self.classes = config.classes_5

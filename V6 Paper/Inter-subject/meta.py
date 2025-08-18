@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 tf.config.run_functions_eagerly(True)
 
@@ -66,6 +67,7 @@ def get_data_Meta(X_train, y_train, X_test, y_test, N_way, K_shot, split=True):
 
         support_idxs = idxs[:K_shot]
         query_idxs = idxs[K_shot:K_shot*2]  # equal size query set
+        #query_idxs = idxs[K_shot:]  # equal size query set
 
         X_support.append(X_train[support_idxs])
         y_support.append(y_train[support_idxs])
@@ -76,12 +78,15 @@ def get_data_Meta(X_train, y_train, X_test, y_test, N_way, K_shot, split=True):
 
     X_support = np.concatenate(X_support, axis=0)
     y_support = np.concatenate(y_support, axis=0)
+    perm = np.random.permutation(len(X_support))
+    X_support, y_support = X_support[perm], y_support[perm]
 
     if split:
         X_query = np.concatenate(X_query, axis=0)
         y_query = np.concatenate(y_query, axis=0)
+        perm = np.random.permutation(len(X_query))
+        X_query, y_query = X_query[perm], y_query[perm]
 
-        # Also provide support set again for calculating prototypes
         return (X_support, y_support), (X_query, y_query), X_support, y_support
     else:
         return X_support, y_support

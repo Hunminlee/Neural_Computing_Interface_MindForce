@@ -1,4 +1,6 @@
 import numpy as np
+import tensorflow as tf
+tf.config.run_functions_eagerly(True)
 
 
 class MetaLearner:
@@ -24,9 +26,15 @@ class MetaLearner:
                 print(f"⚠️ Skipping iteration {meta_iter+1} due to empty train/test data.")
                 continue
 
+            self.model.compile(
+                optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
+                loss="sparse_categorical_crossentropy",
+                metrics=["accuracy"]
+            )
+
             # Step 3: Train on one episode
             result = self.model.fit(train_data[0], train_data[1], epochs=5, validation_data=(test_data[0], test_data[1]), verbose=0)
-            val_acc = np.max(result.history['val_acc'])
+            val_acc = np.max(result.history['val_accuracy'])
             accuracies.append(val_acc)
 
             # Step 4: Meta-update

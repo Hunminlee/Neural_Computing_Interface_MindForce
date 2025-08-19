@@ -49,6 +49,46 @@ class MetaLearner:
         return np.max(accuracies)
 
 
+    def train_for_heatmap(self, X_train, y_train, X_test, y_test, get_data_Meta, N_way, K_shot):
+        accuracies = []
+
+        for meta_iter in range(self.meta_iters):
+            frac_done = meta_iter / self.meta_iters
+            cur_step_size = (1 - frac_done) * self.meta_step_size
+            old_weights = self.model.get_weights()
+            train_data, test_data, proto_X, proto_y = get_data_Meta(X_train, y_train, X_test, y_test, N_way=N_way,
+                                                                    K_shot=K_shot, split=True)
+
+            if train_data is None or test_data is None or len(train_data[0]) == 0 or len(test_data[0]) == 0:
+                print(f"⚠️ Skipping iteration {meta_iter + 1} due to empty train/test data.")
+                continue
+
+            self.model.compile(
+                optimizer=tf.keras.optimizers.Adam(learning_rate=1e-3),
+                loss="sparse_categorical_crossentropy",
+                metrics=["accuracy"]
+            )
+
+            # Step 3: Train on one episode
+            result = self.model.fit(train_data[0], train_data[1], epochs=5, validation_data=(test_data[0], test_data[1]),
+                                    verbose=0)
+            val_acc = np.max(result.history['val_accuracy'])
+            accuracies.append(val_acc)
+
+            # Step 4: Meta-update
+            new_weights = self.model.get_weights()
+            updated_weights = [
+                old + (new - old) * cur_step_size
+                for old, new in zip(old_weights, new_weights)
+            ]
+            self.model.set_weights(updated_weights)
+
+
+        y_pred = np.argmax(self.model.predict(X_test), axis=1)
+        return np.max(accuracies), y_pred
+
+
+
 
 def get_data_Meta(X_train, y_train, X_test, y_test, N_way, K_shot, split=True):
 

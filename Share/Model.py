@@ -187,3 +187,55 @@ def Train_model(model, X_train, y_train, X_test, y_test, set_epoch, set_batch_si
     print(f"Maximum validation accuracy : {np.round(float(np.max(history.history['val_accuracy']) * 100), 2)}%")
 
     return history, model
+
+
+def Train_model_without_test(model, X_train, y_train, set_epoch, set_batch_size, Model_name, set_verbose, save_model_set):
+    # Learning rate scheduler
+    lr_schedule = callbacks.LearningRateScheduler(
+        lambda epoch, lr: lr * 0.5 if epoch % 3 == 0 and epoch != 0 else lr
+    )
+
+    # Optional: Early stopping or model checkpointing
+    early_stop = callbacks.EarlyStopping(monitor='accuracy', patience=30, restore_best_weights=True)
+
+    # Save the best model - val accuracy
+    checkpoint = ModelCheckpoint(
+        f'{Model_name}.keras',  # File path to save
+        monitor='accuracy',  # Metric to monitor
+        save_best_only=True,  # Only save when val_loss improves
+        mode='max',  # Lower val_loss is better
+        verbose=0
+    )
+
+    print(f"Start Training (total epochs: {set_epoch})...")
+
+    if save_model_set:  #Save model
+        history = model.fit(
+            X_train, y_train,
+            #validation_data=(X_test, y_test),
+            epochs=set_epoch,
+            batch_size=set_batch_size,
+            callbacks=[lr_schedule, early_stop, checkpoint],
+            #callbacks=[lr_schedule, checkpoint],
+            shuffle=True,
+            verbose=set_verbose
+        )
+        print("Finish Training! (Model is saved)")
+
+    else:   ####  Don't save
+        history = model.fit(
+            X_train, y_train,
+            #validation_data=(X_test, y_test),
+            epochs=set_epoch,
+            batch_size=set_batch_size,
+            callbacks=[lr_schedule, early_stop],
+            #callbacks=[lr_schedule],
+            shuffle=True,
+            verbose=set_verbose
+        )
+        print("Finish Training! (Model is NOT saved)\n")
+
+    #print(f"Maximum training accuracy : {np.round(float(np.max(history.history['accuracy']) * 100), 2)}%")
+    #print(f"Maximum validation accuracy : {np.round(float(np.max(history.history['val_accuracy']) * 100), 2)}%")
+
+    return history, model

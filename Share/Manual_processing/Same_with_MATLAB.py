@@ -122,7 +122,7 @@ class EMGFeatureExtractor:
 
 
 
-    def extract_one_feature_at_a_time(self, target_feature_idx,  win_size=600, win_step=120):
+    def extract_one_feature_at_a_time(self, target_feature_idx, win_size, win_step):
         buf = lfilter(self.filter_b, self.filter_a, self.buffer, axis=1)
         nch, len_x = buf.shape
         n_steps = (len_x - win_size) // win_step + 1

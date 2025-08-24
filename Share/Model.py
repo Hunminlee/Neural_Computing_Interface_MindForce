@@ -97,12 +97,12 @@ def Original_model_1DCNN(input_size, num_class):
     model = models.Sequential([
         layers.InputLayer(input_shape=input_size, name="input"),  # input_size = (time, channels)
 
-        layers.Conv1D(8, kernel_size=3, padding='same', name="conv_1"),
+        layers.Conv1D(32, kernel_size=3, padding='same', name="conv_1"),
         layers.BatchNormalization(),
         layers.ReLU(name="relu_1"),
         layers.MaxPooling1D(pool_size=2, strides=2, padding='same', name="maxpool_1"),
 
-        layers.Conv1D(16, kernel_size=3, padding='same', name="conv_2"),
+        layers.Conv1D(32, kernel_size=3, padding='same', name="conv_2"),
         layers.BatchNormalization(),
         layers.ReLU(name="relu_2"),
         layers.MaxPooling1D(pool_size=2, strides=2, padding='same', name="maxpool_2"),
@@ -115,8 +115,11 @@ def Original_model_1DCNN(input_size, num_class):
         layers.Dropout(0.5),
 
         layers.Flatten(),
-        layers.Dense(64, name="fc_1"),
+        layers.Dense(128, name="fc_1"),
         layers.ReLU(name="relu_4"),
+        layers.Dropout(0.5),
+        layers.Dense(32, name="fc_2"),
+        layers.ReLU(name="relu_5"),
         layers.Dropout(0.5),
 
         layers.Dense(num_class, activation='softmax', name="output")

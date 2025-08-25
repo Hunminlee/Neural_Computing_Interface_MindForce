@@ -39,13 +39,13 @@ def wavelength_feature(X, win_len, win_inc):
 
     return WL_features
 
-def import_dataset_train(subject, rep, path, win_len, win_inc, sel_four_ch, TEST_REP = 10):
+def import_dataset(subject, rep, path, win_len, win_inc, sel_four_ch):
     file_list = os.listdir(path)
     x_train, y_train = [], []
     input_shape = (16, 8, 1)
 
-    for rep in range(1, 10):  # rep 1~9
-        for gesture in range(1, 9):
+    for gesture in range(1, 9):
+        if rep < 10:
             if subject < 10:
                 globals()['data_S{}_G{}_R{}'.format(subject, gesture, rep)] = \
                 scipy.io.loadmat(path + file_list[subject - 1] +
@@ -56,7 +56,7 @@ def import_dataset_train(subject, rep, path, win_len, win_inc, sel_four_ch, TEST
                                  '/0{}-00{}-00{}.mat'.format(subject, gesture, rep))['data']
             else:
                 print(gesture, rep, "!!!!!!!!!!!!!!!!!!")
-
+    
             data = globals()['data_S{}_G{}_R{}'.format(subject, gesture, rep)]
             data = data[:, sel_four_ch]
             data = wavelength_feature(data, win_len, win_inc)
@@ -64,19 +64,7 @@ def import_dataset_train(subject, rep, path, win_len, win_inc, sel_four_ch, TEST
             for i in range(len(data)):
                 y_train.append(gesture)
 
-    x_train = np.concatenate(x_train)
-    y_train = np.array(y_train) - 1
-
-    return x_train, y_train
-
-
-def import_dataset_test(subject, rep, path, win_len, win_inc, sel_four_ch, TEST_REP = 10):
-    file_list = os.listdir(path)
-    input_shape = (16, 8, 1)
-    x_test, y_test = [], []
-
-    for gesture in range(1, 9):
-        if rep == TEST_REP:  # rep 10
+        elif rep == 10:  # rep 10
             if subject < 10:
                 globals()['data_S{}_G{}_R10'.format(subject, gesture)] = \
                 scipy.io.loadmat(path + file_list[subject - 1] +
@@ -91,11 +79,11 @@ def import_dataset_test(subject, rep, path, win_len, win_inc, sel_four_ch, TEST_
             data = globals()['data_S{}_G{}_R10'.format(subject, gesture)]
             data = data[:, sel_four_ch]
             data = wavelength_feature(data, win_len, win_inc)
-            x_test.append(data)
+            x_train.append(data)
             for i in range(len(data)):
-                y_test.append(gesture)
+                y_train.append(gesture)
 
-    x_test = np.concatenate(x_test)
-    y_test = np.array(y_test) - 1
+    x_train = np.concatenate(x_train)
+    y_train = np.array(y_train) - 1
 
-    return x_test, y_test
+    return x_train, y_train

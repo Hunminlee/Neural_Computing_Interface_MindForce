@@ -86,7 +86,11 @@ def Original_model(input_shape, num_class=6):
     ])
 
     model.compile(
-        optimizer=optimizers.Adam(learning_rate=0.05),
+        #optimizer=optimizers.Adam(learning_rate=0.05),
+        #optimizer=optimizers.Adam(learning_rate=0.1),
+        optimizer=optimizers.Adam(learning_rate=0.01),
+        #optimizer=optimizers.Adam(learning_rate=0.005),
+        #optimizer=optimizers.Adam(learning_rate=0.001),
         loss='sparse_categorical_crossentropy',
         metrics=['accuracy']
     )
@@ -147,7 +151,7 @@ def Train_model(model, X_train, y_train, X_test, y_test, set_epoch, set_batch_si
     )
 
     # Optional: Early stopping or model checkpointing
-    early_stop = callbacks.EarlyStopping(monitor='val_accuracy', patience=30, restore_best_weights=True)
+    early_stop = callbacks.EarlyStopping(monitor='val_accuracy', patience=50, restore_best_weights=True)
 
     # Save the best model - val accuracy
     checkpoint = ModelCheckpoint(
@@ -171,7 +175,7 @@ def Train_model(model, X_train, y_train, X_test, y_test, set_epoch, set_batch_si
             shuffle=True,
             verbose=set_verbose
         )
-        print("Finish Training! (Model is saved)")
+        #print("Finish Training! (Model is saved)")
 
     else:   ####  Don't save
         history = model.fit(
@@ -184,7 +188,7 @@ def Train_model(model, X_train, y_train, X_test, y_test, set_epoch, set_batch_si
             shuffle=True,
             verbose=set_verbose
         )
-        print("Finish Training! (Model is NOT saved)\n")
+        #print("Finish Training! (Model is NOT saved)\n")
 
     print(f"Maximum training accuracy : {np.round(float(np.max(history.history['accuracy']) * 100), 2)}%")
     print(f"Maximum validation accuracy : {np.round(float(np.max(history.history['val_accuracy']) * 100), 2)}%")

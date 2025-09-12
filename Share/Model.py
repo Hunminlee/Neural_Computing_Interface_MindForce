@@ -227,7 +227,7 @@ def Train_model_without_test(model, X_train, y_train, set_epoch, set_batch_size,
             shuffle=True,
             verbose=set_verbose
         )
-        print("Finish Training! (Model is saved)")
+        #print("Finish Training! (Model is saved)")
 
     else:   ####  Don't save
         history = model.fit(
@@ -240,7 +240,7 @@ def Train_model_without_test(model, X_train, y_train, set_epoch, set_batch_size,
             shuffle=True,
             verbose=set_verbose
         )
-        print("Finish Training! (Model is NOT saved)\n")
+        #print("Finish Training! (Model is NOT saved)\n")
 
     #print(f"Maximum training accuracy : {np.round(float(np.max(history.history['accuracy']) * 100), 2)}%")
     #print(f"Maximum validation accuracy : {np.round(float(np.max(history.history['val_accuracy']) * 100), 2)}%")

@@ -201,7 +201,7 @@ class ModelTrainer:
         for idx, session_info in enumerate(self.dataset_info):
             if idx < K:
                 path = os.path.join(self.default_path, f'{session_info}/raw/')
-                print(f"Dataset {idx + 1}/{len(self.dataset_info)} - Session {session_info}\n{'=' * 40}")
+                print(f"Dataset {idx + 1}/{len(self.dataset_info)} - Session {session_info}") #\n{'=' * 40}
                 feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)
                 X_train, y_train, X_test, y_test = utils.split_data(feature_set, labels, train_ratio=train_ratio)
 
@@ -212,13 +212,12 @@ class ModelTrainer:
                 X_test_all.append(X_test)
                 y_test_all.append(y_test)
 
-                # Concatenate all so far
-                X_train_stacked = np.concatenate(X_train_all, axis=0)
-                y_train_stacked = np.concatenate(y_train_all, axis=0)
+        # Concatenate all so far
+        X_train_stacked = np.concatenate(X_train_all, axis=0)
+        y_train_stacked = np.concatenate(y_train_all, axis=0)
 
-                X_test_stacked = np.concatenate(X_test_all, axis=0)
-                y_test_stacked = np.concatenate(y_test_all, axis=0)
-
+        X_test_stacked = np.concatenate(X_test_all, axis=0)
+        y_test_stacked = np.concatenate(y_test_all, axis=0)
 
         #print(X_train_stacked.shape, y_train_stacked.shape, X_test_stacked.shape, y_test_stacked.shape)
 
@@ -230,7 +229,7 @@ class ModelTrainer:
         Return only the K-th session's data (0-indexed).
         """
         session_info = self.dataset_info[K]
-        print(f"Returning K-th session data: {session_info}\n{'=' * 40}")
+        print(f"Returning K-th session data: {session_info}") #\n{'=' * 40}
 
         path = os.path.join(self.default_path, f'{session_info}/raw/')
         feature_set, labels = utils.get_dataset(path, self.classes, show_labels=False)

@@ -62,12 +62,12 @@ def Original_model(input_shape, num_class=6):
     model = models.Sequential([
         layers.InputLayer(shape=input_shape),
 
-        layers.Conv2D(8, (3, 3), padding='same'),
+        layers.Conv2D(16, (3, 3), padding='same'),
         layers.BatchNormalization(),
         layers.ReLU(),
         layers.MaxPooling2D(pool_size=(2, 2), strides=2, padding='same'),
 
-        layers.Conv2D(16, (3, 3), padding='same'),
+        layers.Conv2D(32, (3, 3), padding='same'),
         layers.BatchNormalization(),
         layers.ReLU(),
         layers.MaxPooling2D(pool_size=(2, 2), strides=2, padding='same'),
@@ -79,7 +79,10 @@ def Original_model(input_shape, num_class=6):
 
         layers.Dropout(0.5),
         layers.Flatten(),
-        layers.Dense(64),
+        layers.Dense(128),
+        layers.ReLU(),
+        layers.Dropout(0.5),
+        layers.Dense(128),
         layers.ReLU(),
         layers.Dropout(0.5),
         layers.Dense(num_class, activation='softmax')
@@ -129,8 +132,8 @@ def Original_model_1DCNN(input_size, num_class):
         layers.Dense(num_class, activation='softmax', name="output")
     ])
 
-    optimizer = optimizers.SGD(learning_rate=0.01, momentum=0.85)
-    #optimizer = tf.keras.optimizers.Adam(learning_rate=0.025)
+    #optimizer = optimizers.SGD(learning_rate=0.01, momentum=0.85)
+    optimizer = tf.keras.optimizers.Adam(learning_rate=0.025)
     #optimizer = tf.keras.optimizers.AdamW(learning_rate=0.01, weight_decay=1e-4)
 
     model.compile(
@@ -203,12 +206,12 @@ def Train_model_without_test(model, X_train, y_train, set_epoch, set_batch_size,
     )
 
     # Optional: Early stopping or model checkpointing
-    early_stop = callbacks.EarlyStopping(monitor='accuracy', patience=30, restore_best_weights=True)
+    early_stop = callbacks.EarlyStopping(monitor='val_accuracy', patience=50, restore_best_weights=True)
 
     # Save the best model - val accuracy
     checkpoint = ModelCheckpoint(
-        f'{Model_name}.keras',  # File path to save
-        monitor='accuracy',  # Metric to monitor
+        f'./{Model_name}.keras',  # File path to save
+        monitor='val_accuracy',  # Metric to monitor
         save_best_only=True,  # Only save when val_loss improves
         mode='max',  # Lower val_loss is better
         verbose=0

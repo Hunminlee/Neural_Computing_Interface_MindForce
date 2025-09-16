@@ -120,6 +120,14 @@ def online_update(model, new_sample, pseudo_label, learning_rate=0.001):
     model.train_on_batch(new_sample, pseudo_label)
     return model
 
+
+def online_update(model, new_sample, pseudo_label, learning_rate=0.001):
+    model.fit(new_sample, pseudo_label, epochs=10, batch_size=32, verbose=0)
+    return model
+
+
+
+
 # ------------------------------
 # 4. Pseudo-label generator (naive version)
 # ------------------------------

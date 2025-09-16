@@ -219,3 +219,16 @@ def run(subject, Train_session, Test_session):
     cm = train_model(X_train, y_train, X_test, y_test, heatmap_bool=True, draw_learning_curve=False)
     return cm
     #train_model_feature_wise(X_train, y_train, X_test, y_test)
+
+
+def get_X_y(X_lst, y_lst, session, balance=True):
+    X, y = [], []
+    for t in session:
+        X_tmp, y_tmp = X_lst[t].reshape(-1,16,14,1), y_lst[t]
+        X.append(X_tmp)
+        y.append(y_tmp)
+
+    X, y = np.concatenate(X, axis=0), np.concatenate(y, axis=0)
+    if balance:
+        X,y = balance_data(X, y)
+    return X, y

@@ -169,6 +169,49 @@ def return_X_y_get_from_matfile(path, num_session, balance):
     return X_train, y_train
 
 
+def X_y_from_matfile(path, balance, modality, session):
+
+    X, y = [], []
+
+    if modality=='EMG':
+        bluetooth_id = 'E8DD80E550BB'
+    elif modality=='ENG':
+        bluetooth_id = 'E9AD0E7DCC2B'
+    else:
+        print("modality must be EMG or ENG")
+        return 0
+
+    if session=='v1' or session=='v2':
+        pass
+    else:
+        print("session must be v1 or v2")
+        return 0
+
+    data_per_class_files = os.listdir(path+f'{modality}_{session}/{bluetooth_id}/raw/')
+    for cls in data_per_class_files:
+        input_path = path+f'{modality}_{session}/{bluetooth_id}/raw/{cls}/'
+        files = os.listdir(input_path)
+
+        mat = scipy.io.loadmat(input_path+files[0])
+        labels = mat['Data_Cls'].reshape(-1)  # shape: (1, 1729)
+
+        features = mat['Data_Fea']
+        features = np.transpose(features, (2, 0, 1))  # shape: (1729, 4, 14)
+        X.append(features)
+        y.append(labels)
+
+    X_train = np.concatenate(X, axis=0)
+    y_train = np.concatenate(y, axis=0)
+    X_train = X_train[:, :, :, np.newaxis]
+    #print(pd.Series(y_train).value_counts())
+    #print(X_train.shape, y_train.shape)
+
+    if balance:
+        X_train, y_train = balance_data(X_train, y_train)
+
+    return X_train, y_train
+
+
 
 def train_model_feature_wise(X_train, y_train, X_test, y_test):
     X_train, y_train = filtering_zero(X_train, y_train, erase_label=0)
@@ -208,7 +251,7 @@ def train_model(X_train, y_train, X_test, y_test, heatmap_bool=False, draw_learn
     if heatmap_bool:
         cm = heatmap_confusion_matrix(X_test, y_test, model)
         return cm
-    return None
+    return history
 
 def run(subject, Train_session, Test_session):
     bluetooth_id = 'E9AD0E7DCC2B'

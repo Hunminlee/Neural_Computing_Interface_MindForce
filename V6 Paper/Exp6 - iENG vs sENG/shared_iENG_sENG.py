@@ -188,12 +188,16 @@ def X_y_from_matfile(path, balance, modality, session):
         return 0
 
     data_per_class_files = os.listdir(path+f'{modality}_{session}/{bluetooth_id}/raw/')
+    #print(data_per_class_files)
+
     for cls in data_per_class_files:
         input_path = path+f'{modality}_{session}/{bluetooth_id}/raw/{cls}/'
         files = os.listdir(input_path)
 
         mat = scipy.io.loadmat(input_path+files[0])
         labels = mat['Data_Cls'].reshape(-1)  # shape: (1, 1729)
+        if int(cls) > 5:
+            labels = [int(cls) if x == 5 else x for x in labels]
 
         features = mat['Data_Fea']
         features = np.transpose(features, (2, 0, 1))  # shape: (1729, 4, 14)

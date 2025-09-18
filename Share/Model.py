@@ -57,7 +57,7 @@ def Original_model(input_size, num_class):
     return model
 '''
 
-def Original_model(input_shape, num_class=6):
+def Original_model(input_shape, num_class):
     #input_shape = (4, 14, 1)
     model = models.Sequential([
         layers.InputLayer(shape=input_shape),

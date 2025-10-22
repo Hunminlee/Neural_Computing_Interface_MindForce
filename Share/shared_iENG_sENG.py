@@ -6,14 +6,14 @@ from sklearn.metrics import accuracy_score
 import scipy, os
 from sklearn.metrics import confusion_matrix
 import seaborn as sns
-
 import sys
-
 from sklearn.model_selection import learning_curve
 
-sys.path.append('../../Share/')
-sys.path.append('../../Share/Manual_processing/')
-import baseline, config, Model, utils, Same_with_MATLAB, Feature_info
+#sys.path.append('/')
+import baseline, config, Model, utils
+
+sys.path.append('C:/Users/hml76/PycharmProjects/MindForce/github/Share/Manual_processing/')
+import Same_with_MATLAB, Feature_info
 
 
 

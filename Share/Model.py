@@ -100,6 +100,53 @@ def Original_model(input_shape, num_class):
     return model
 
 
+
+def Original_model2(input_shape, num_class):
+    #input_shape = (4, 14, 1)
+    model = models.Sequential([
+        layers.InputLayer(shape=input_shape),
+
+        layers.Conv2D(64, (3, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.ReLU(),
+        layers.MaxPooling2D(pool_size=(2, 2), strides=2, padding='same'),
+
+        layers.Conv2D(64, (3, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.ReLU(),
+        layers.MaxPooling2D(pool_size=(2, 2), strides=2, padding='same'),
+
+        layers.Conv2D(64, (3, 3), padding='same'),
+        layers.BatchNormalization(),
+        layers.ReLU(),
+        layers.MaxPooling2D(pool_size=(2, 2), strides=2, padding='same'),
+
+        layers.Dropout(0.5),
+        layers.Flatten(),
+        layers.Dense(512),
+        layers.ReLU(),
+        layers.Dropout(0.5),
+        layers.Dense(512),
+        layers.ReLU(),
+        layers.Dropout(0.5),
+        layers.Dense(128),
+        layers.ReLU(),
+        layers.Dropout(0.5),
+        layers.Dense(num_class, activation='softmax')
+    ])
+
+    model.compile(
+        #optimizer=optimizers.Adam(learning_rate=0.05),
+        #optimizer=optimizers.Adam(learning_rate=0.1),
+        optimizer=optimizers.Adam(learning_rate=0.01),
+        #optimizer=optimizers.Adam(learning_rate=0.005),
+        #optimizer=optimizers.Adam(learning_rate=0.001),
+        loss='sparse_categorical_crossentropy',
+        metrics=['accuracy']
+    )
+    return model
+
+
 def Original_model_1DCNN(input_size, num_class):
     model = models.Sequential([
         layers.InputLayer(input_shape=input_size, name="input"),  # input_size = (time, channels)
